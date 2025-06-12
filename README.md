@@ -100,107 +100,84 @@ The application will be available at http://localhost:3000
 
 ### Implementation Details
 
-#### Main Thread (`app.js`)
-- DOM manipulation and UI updates
-- Web Worker initialization and management
-- Message handling and UI state management
-- Animation and visual feedback
+### Main Thread (`app.js`)
+The main thread focuses on UI operations:
+- DOM element management
+- Log list maintenance (last 10 logs)
+- Handling Web Worker messages
+- Animations for value updates
 - Connection status display
 
-#### Web Worker (`socket-worker.js`)
-- SockJS connection handling
-- Reconnection logic implementation
+### Web Worker (`socket-worker.js`)
+Handles all network operations in background:
+- SockJS connection management
+- Automatic reconnection (configurable attempts)
 - Message processing and routing
-- Connection state management
-- Error handling and recovery
+- Connection state tracking
+- Error handling with status reporting
 
-#### User Interface (`index.html` & `styles.css`)
-- Clean and modern design
-- Real-time counter display
-- Connection status indicators
-- Smooth animations
+### User Interface
+Split between HTML and CSS:
+```
+index.html
+- Counter display
+- Connection log list
+- Status indicators
+
+styles.css
+- Modern, clean design
+- Animated transitions
+- Log entry styling
 - Responsive layout
-1. **Main Thread (`app.js`)**
-   - UI updates and animations
-   - DOM manipulation
-   - Connection status display
-   - Message handling from Web Worker
-
-2. **Web Worker (`socket-worker.js`)**
-   - SockJS connection management
-   - Reconnection logic
-   - Message processing
-   - Background operation handling
-
-1. **Connection Management**
-   ```javascript
-   // Tracks connection state
-   let socket;
-   let reconnectAttempts = 0;
-   const maxReconnectAttempts = 5;
-   const reconnectDelay = 3000; // 3 seconds
-   ```
-
-2. **iOS Background Detection**
-   ```javascript
-   document.addEventListener('visibilitychange', () => {
-       if (document.visibilityState === 'visible') {
-           // Reconnect when app comes to foreground
-       }
-   });
-   ```
-
-3. **Reconnection Strategy**
-   - Attempts reconnection up to 5 times
-   - 3-second delay between attempts
-   - Resets attempt counter when user returns to app
-   - Automatically reconnects when returning from background
-
-### iOS-Specific Considerations
-
-When an iOS device puts the app in background:
-1. WebSocket connection typically gets disconnected
-2. App detects this using visibility change events
-3. Upon returning to foreground:
-   - Checks connection state
-   - Initiates reconnection if needed
-   - Resets reconnection attempt counter
-
-### UI Features
-- Clean, modern interface
-- Smooth animation on value updates
-- Real-time counter display
-
-## Project Structure
-
-```
-.
-├── server.js           # WebSocket server
-├── public/
-│   ├── index.html     # HTML interface
-│   ├── styles.css     # Styling
-│   └── app.js         # WebSocket client logic
-└── package.json
 ```
 
-## Dependencies
+## Core Features
 
-- `express`: Web server framework
-- `ws`: WebSocket implementation
+### 1. Web Worker Benefits
+- Non-blocking WebSocket operations
+- Improved UI responsiveness
+- Separated concerns (UI vs Network)
+- Better error handling
+- Smooth animations during reconnection
 
-## Best Practices Implemented
+### 2. Connection Management
+- Configurable reconnection attempts
+- Automatic recovery from disconnects
+- Real-time status logging
+- Clear error reporting
 
-1. **Graceful Degradation**
-   - Handles disconnections smoothly
-   - Implements automatic reconnection
-   - Manages connection state
+### 3. Dependencies
+- `express`: Web application framework
+- `sockjs`: WebSocket server implementation
+- `sockjs-client`: WebSocket client library
+## Best Practices
 
-2. **User Experience**
-   - Smooth animations
-   - Real-time updates
-   - Automatic recovery from disconnections
+### 1. Performance
+- Web Worker offloads network operations
+- Minimal DOM updates
+- Efficient connection management
+- Optimized animation handling
 
-3. **iOS Optimization**
-   - Background state detection
-   - Automatic reconnection
-   - Connection state management
+### 2. Error Handling
+- Graceful connection recovery
+- Clear error messaging
+- Status logging
+- Configurable retry logic
+
+### 3. User Experience
+- Real-time value updates
+- Smooth animations
+- Connection status visibility
+- Log history display
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+MIT License - feel free to use this demo for learning and development.
