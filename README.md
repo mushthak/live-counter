@@ -1,37 +1,136 @@
-# live-counter-ws
+# Live Counter WebSocket Demo
 
-A lightweight WebSocket demo application that shows real-time counter updates with robust iOS background/foreground handling.
+A real-time counter application demonstrating advanced WebSocket implementation using SockJS and Web Workers. This application showcases robust connection handling and optimized performance through background thread processing.
 
-## Overview
+## Key Features
 
-This demo shows how to:
-- Implement real-time updates using WebSocket
-- Handle iOS-specific WebSocket disconnections
-- Manage automatic reconnection when app returns from background
+### Real-time Communication
+- Live counter updates using SockJS
+- Reliable WebSocket connections with fallback options
+- Server-side broadcasting to all connected clients
+- Centralized counter state management
 
-## Installation
+### Performance Optimization
+- Web Worker for WebSocket handling
+- Non-blocking UI with smooth animations
+- Offloaded connection management
+- Separated network and UI threads
 
+### Connection Management
+- Automatic reconnection system
+- Connection state monitoring
+- Configurable retry attempts
+- Real-time status logging
+
+### Modern UI
+- Clean, minimalist design
+- Animated value updates
+- Connection status display
+- Real-time log viewer
+
+## Technology Stack
+
+### Server-Side
+- Node.js with Express
+- SockJS server for WebSocket handling
+- HTTP Server for static content
+
+### Client-Side
+- HTML5 & CSS3
+- JavaScript (ES6+)
+- SockJS Client
+- Web Workers API
+
+### Development
+- npm for dependency management
+- VS Code for development
+- Chrome DevTools for debugging
+- Git for version control
+
+## Setup and Usage
+
+### Requirements
+- Node.js (v14+)
+- npm (v6+)
+- Modern web browser
+
+### Installation
 ```bash
+# Install dependencies
 npm install
 ```
 
-## Running the App
-
+### Running the Application
 ```bash
+# Start the server
 npm start
 ```
 
-Open http://localhost:3000 in your browser.
+The application will be available at http://localhost:3000
 
-## How it Works
+### Development Notes
+- Server runs on port 3000 by default
+- Connection logs visible in browser
+- Real-time counter updates
+- Automatic reconnection on disconnection
 
-### Server-side (`server.js`)
-- Express server with WebSocket support
-- Increments a counter every second
-- Broadcasts counter value to all connected clients
+## Project Structure
 
-### Client-side (`public/app.js`)
-The client implements robust iOS background handling:
+```
+├── server.js              # SockJS server implementation
+├── package.json          # Project configuration
+├── .gitignore           # Git ignore rules
+└── public/
+    ├── app.js           # Main UI thread logic
+    ├── socket-worker.js # WebSocket handler (Web Worker)
+    ├── index.html       # Application HTML
+    ├── styles.css       # CSS styles
+    └── sockjs.min.js    # SockJS client library
+```
+
+### Application Components
+
+#### Server (`server.js`)
+- Express.js application setup
+- SockJS server configuration
+- Static file serving
+- Client connection management
+- Real-time counter updates
+```
+
+### Implementation Details
+
+#### Main Thread (`app.js`)
+- DOM manipulation and UI updates
+- Web Worker initialization and management
+- Message handling and UI state management
+- Animation and visual feedback
+- Connection status display
+
+#### Web Worker (`socket-worker.js`)
+- SockJS connection handling
+- Reconnection logic implementation
+- Message processing and routing
+- Connection state management
+- Error handling and recovery
+
+#### User Interface (`index.html` & `styles.css`)
+- Clean and modern design
+- Real-time counter display
+- Connection status indicators
+- Smooth animations
+- Responsive layout
+1. **Main Thread (`app.js`)**
+   - UI updates and animations
+   - DOM manipulation
+   - Connection status display
+   - Message handling from Web Worker
+
+2. **Web Worker (`socket-worker.js`)**
+   - SockJS connection management
+   - Reconnection logic
+   - Message processing
+   - Background operation handling
 
 1. **Connection Management**
    ```javascript
