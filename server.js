@@ -13,22 +13,28 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Store the current value
 let currentValue = 0;
 
+// Create a single interval for updating the counter
+const mainInterval = setInterval(() => {
+    currentValue++;
+    // Broadcast to all connected clients
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ value: currentValue }));
+        }
+    });
+}, 1000);
+
 // WebSocket connection handling
 wss.on('connection', (ws) => {
-    console.log('New client connected');
+    console.log('📡 New client connected');
+    console.log(`🔄 Total connected clients: ${wss.clients.size}`);
     
     // Send the initial value
     ws.send(JSON.stringify({ value: currentValue }));
 
-    // Update value every second
-    const interval = setInterval(() => {
-        currentValue++;
-        ws.send(JSON.stringify({ value: currentValue }));
-    }, 1000);
-
     ws.on('close', () => {
-        console.log('Client disconnected');
-        clearInterval(interval);
+        console.log('❌ Client disconnected');
+        console.log(`🔄 Remaining connected clients: ${wss.clients.size - 1}`);
     });
 });
 
