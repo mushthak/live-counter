@@ -12,6 +12,8 @@
   "description": "",
   "dependencies": {
     "express": "^5.1.0",
+    "sockjs": "^0.3.24",
+    "sockjs-client": "^1.6.1",
     "ws": "^8.18.2"
   }
 }
